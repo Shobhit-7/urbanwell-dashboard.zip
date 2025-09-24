@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Wellbeing Intelligence Platform - Delhi</title>
+    
+    <!-- External Dependencies -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1><i class="fas fa-city"></i> Urban Wellbeing Intelligence Platform</h1>
+                    <p class="city-name">Delhi Metropolitan Area</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <span class="stat-value" id="overall-aqi">287</span>
+                        <span class="stat-label">Overall AQI</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="livability-score">52</span>
+                        <span class="stat-label">Livability Score</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <div class="container">
+            <div class="tab-container">
+                <button class="tab-btn active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </button>
+                <button class="tab-btn" data-tab="air-quality">
+                    <i class="fas fa-smog"></i> Air Quality
+                </button>
+                <button class="tab-btn" data-tab="water-risk">
+                    <i class="fas fa-tint"></i> Water & Flood Risk
+                </button>
+                <button class="tab-btn" data-tab="green-spaces">
+                    <i class="fas fa-leaf"></i> Green Spaces
+                </button>
+                <button class="tab-btn" data-tab="analytics">
+                    <i class="fas fa-chart-line"></i> Analytics
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="dashboard-grid">
+                    <div class="overview-cards">
+                        <div class="metric-card">
+                            <div class="card-header">
+                                <i class="fas fa-users text-primary"></i>
+                                <h3>Population</h3>
+                            </div>
+                            <div class="metric-value">32.9M</div>
+                            <div class="metric-label">Total Population</div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="card-header">
+                                <i class="fas fa-map text-success"></i>
+                                <h3>Area</h3>
+                            </div>
+                            <div class="metric-value">1,484</div>
+                            <div class="metric-label">Square Kilometers</div>
+                        </div>
+                        
+                        <div class="metric-card hazardous">
+                            <div class="card-header">
+                                <i class="fas fa-smog text-error"></i>
+                                <h3>Air Quality Index</h3>
+                            </div>
+                            <div class="metric-value">287</div>
+                            <div class="metric-label">Hazardous</div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="card-header">
+                                <i class="fas fa-tint text-warning"></i>
+                                <h3>Water Security</h3>
+                            </div>
+                            <div class="metric-value">45</div>
+                            <div class="metric-label">Index Score</div>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <div id="dashboard-map" class="map"></div>
+                    </div>
+                    
+                    <div class="recommendations-panel">
+                        <h3><i class="fas fa-lightbulb"></i> Key Recommendations</h3>
+                        <ul id="recommendations-list">
+                            <!-- Populated by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Air Quality Tab -->
+            <div id="air-quality" class="tab-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-smog"></i> Air Quality Monitoring</h2>
+                    <div class="legend">
+                        <span class="legend-item good">Good (0-50)</span>
+                        <span class="legend-item moderate">Moderate (51-100)</span>
+                        <span class="legend-item unhealthy-sensitive">Unhealthy for Sensitive (101-150)</span>
+                        <span class="legend-item unhealthy">Unhealthy (151-200)</span>
+                        <span class="legend-item very-unhealthy">Very Unhealthy (201-300)</span>
+                        <span class="legend-item hazardous">Hazardous (301+)</span>
+                    </div>
+                </div>
+                <div class="air-quality-grid">
+                    <div class="map-section">
+                        <div id="air-quality-map" class="map"></div>
+                    </div>
+                    <div class="details-panel">
+                        <div class="district-cards" id="district-cards">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Water & Flood Risk Tab -->
+            <div id="water-risk" class="tab-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-tint"></i> Water Security & Flood Risk Assessment</h2>
+                </div>
+                <div class="water-risk-grid">
+                    <div class="map-section">
+                        <div id="water-risk-map" class="map"></div>
+                    </div>
+                    <div class="water-metrics">
+                        <div class="water-cards" id="water-cards">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Green Spaces Tab -->
+            <div id="green-spaces" class="tab-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-leaf"></i> Green Cover & Livability Analysis</h2>
+                    <div class="green-summary">
+                        <span class="summary-stat">Overall Green Cover: <strong>19%</strong></span>
+                    </div>
+                </div>
+                <div class="green-spaces-grid">
+                    <div class="map-section">
+                        <div id="green-spaces-map" class="map"></div>
+                    </div>
+                    <div class="green-metrics">
+                        <div class="green-cards" id="green-cards">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <div class="module-header">
+                    <h2><i class="fas fa-chart-line"></i> Analytics & Trends</h2>
+                </div>
+                <div class="analytics-grid">
+                    <div class="chart-section">
+                        <div class="chart-container">
+                            <h3>Air Quality Trends by District</h3>
+                            <canvas id="aqi-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-section">
+                        <div class="chart-container">
+                            <h3>Green Cover vs Livability Score</h3>
+                            <canvas id="green-livability-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-section">
+                        <div class="chart-container">
+                            <h3>Water Risk Assessment</h3>
+                            <canvas id="water-risk-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="export-section">
+                        <button class="btn btn--primary" onclick="exportReport()">
+                            <i class="fas fa-download"></i> Export Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="project-info">
+                    <h4>Urban Wellbeing Intelligence Platform</h4>
+                    <p>NASA Space Apps Challenge 2025 Project</p>
+                </div>
+                <div class="team-credits">
+                    <p><strong>Developed by:</strong></p>
+                    <p>Shobhit Shukla & Charu Awasthi</p>
+                    <p>B.Tech 3rd Year, CSE AI/ML</p>
+                </div>
+                <div class="update-info">
+                    <p>Last Updated: <span id="last-updated">September 24, 2025</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
